@@ -30,6 +30,6 @@ class CategoriesAdapter(val context: Context,val list: ArrayList<CategoriesItem>
     }
 }
 class CategoriesVH(itemView: View) : RecyclerView.ViewHolder(itemView){
-    val image=itemView.findViewById<ImageView>(R.id.imageBg)
-    val text=itemView.findViewById<TextView>(R.id.text)
+    val image: ImageView =itemView.findViewById(R.id.imageBg)
+    val text: TextView =itemView.findViewById(R.id.text)
 }

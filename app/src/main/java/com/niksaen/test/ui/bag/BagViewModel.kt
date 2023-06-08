@@ -1,5 +1,6 @@
 package com.niksaen.test.ui.bag
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class BagViewModel(val bagModule: BagModule) : ViewModel() {
+class BagViewModel(val context: Context) : ViewModel() {
     private var _currentDate=MutableLiveData<String>()
     private var _price = MutableLiveData<Int>()
     private var _bagList = MutableLiveData<ArrayList<DishesItem>>()
@@ -25,13 +26,13 @@ class BagViewModel(val bagModule: BagModule) : ViewModel() {
         _currentDate.value = getCurrentDate()
     }
     fun requestBagList(){
-        _bagList.value = bagModule.getBagList()
+        _bagList.value = (context.applicationContext as DishesApplication).bagModule.getBagList()
     }
     fun requestFullPrice(){
-        _price.value = bagModule.getPrice()
+        _price.value = (context.applicationContext as DishesApplication).bagModule.getPrice()
     }
     fun setDataChangedAction(){
-        bagModule.dataChangedAction= Runnable{
+        (context.applicationContext as DishesApplication).bagModule.dataChangedAction= Runnable{
             requestBagList()
             requestFullPrice()
         }

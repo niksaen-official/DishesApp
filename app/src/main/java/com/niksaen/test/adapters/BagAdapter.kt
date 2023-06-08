@@ -19,7 +19,6 @@ import com.squareup.picasso.Picasso
 import org.koin.java.KoinJavaComponent.inject
 
 class BagAdapter(val context: Context, private val list: ArrayList<DishesItem>): RecyclerView.Adapter<BagVH>() {
-    private val bagModule:BagModule by inject(BagModule::class.java)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BagVH =
         BagVH(LayoutInflater.from(context).inflate(R.layout.item_bag,null))
 
@@ -30,25 +29,24 @@ class BagAdapter(val context: Context, private val list: ArrayList<DishesItem>):
         holder.text.text = list[position].name
         holder.price.text = "${list[position].price} ₽"
         holder.weight.text = " · ${list[position].weight}г"
-        holder.countView.text = bagModule.getDishesCount(list[position])
+        holder.countView.text = (context.applicationContext as DishesApplication).bagModule.getDishesCount(list[position])
             .toString()
         holder.minusBtn.setOnClickListener{
-            bagModule.remove(list[position])
-            holder.countView.text = bagModule.getDishesCount(list[position]).toString()
+            (context.applicationContext as DishesApplication).bagModule.remove(list[position])
+            holder.countView.text = (context.applicationContext as DishesApplication).bagModule.getDishesCount(list[position]).toString()
         }
         holder.plusBtn.setOnClickListener {
-            bagModule.add(list[position])
-            holder.countView.text = bagModule.getDishesCount(list[position]).toString()
+            (context.applicationContext as DishesApplication).bagModule.add(list[position])
+            holder.countView.text = (context.applicationContext as DishesApplication).bagModule.getDishesCount(list[position]).toString()
         }
-        Log.w("BagAdapter", "data set position:$position")
     }
 }
 class BagVH(itemView: View) : RecyclerView.ViewHolder(itemView){
-    val image=itemView.findViewById<ImageView>(R.id.imageDishes)
-    val text=itemView.findViewById<TextView>(R.id.nameDishesView)
-    val price=itemView.findViewById<TextView>(R.id.priceView)
-    val weight = itemView.findViewById<TextView>(R.id.weightView)
-    val plusBtn = itemView.findViewById<ImageView>(R.id.plusBtn)
-    val countView = itemView.findViewById<TextView>(R.id.countView)
-    val minusBtn = itemView.findViewById<ImageView>(R.id.minusBtn)
+    val image: ImageView =itemView.findViewById(R.id.imageDishes)
+    val text: TextView =itemView.findViewById(R.id.nameDishesView)
+    val price: TextView =itemView.findViewById(R.id.priceView)
+    val weight: TextView = itemView.findViewById(R.id.weightView)
+    val plusBtn: ImageView = itemView.findViewById(R.id.plusBtn)
+    val countView: TextView = itemView.findViewById(R.id.countView)
+    val minusBtn: ImageView = itemView.findViewById(R.id.minusBtn)
 }

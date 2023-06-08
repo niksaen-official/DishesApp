@@ -9,6 +9,6 @@ import org.koin.dsl.module
 
 val appModule = module {
     viewModel { HomeViewModel() }
-    viewModel { BagViewModel(get()) }
-    viewModel { DishesListViewModel(get()) }
+    viewModel { BagViewModel(context = get()) }
+    viewModel { DishesListViewModel(context = get()) }
 }

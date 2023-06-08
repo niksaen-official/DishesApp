@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers
 import org.koin.android.ext.android.inject
 import org.koin.java.KoinJavaComponent.inject
 
-class DishesListViewModel(private val bagModule: BagModule) : ViewModel() {
+class DishesListViewModel(val context: Context) : ViewModel() {
     private val dishesApi: DishesApi by inject(DishesApi::class.java)
     private val compositeDisposable = CompositeDisposable()
     private val _dishesResponse= MutableLiveData<DishesResponse>()
@@ -31,7 +31,7 @@ class DishesListViewModel(private val bagModule: BagModule) : ViewModel() {
         compositeDisposable.dispose()
     }
     fun addToBag(dishesItem: DishesItem){
-        bagModule.add(dishesItem)
+        (context.applicationContext as DishesApplication).bagModule.add(dishesItem)
     }
     fun getTags(context: Context){
         _tags.value = context.resources?.getStringArray(R.array.dishes_tags)

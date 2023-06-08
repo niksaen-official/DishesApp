@@ -29,6 +29,6 @@ class DishesAdapter(val context: Context, val list: ArrayList<DishesItem>): Recy
     }
 }
 class DishesVH(itemView: View) : RecyclerView.ViewHolder(itemView){
-    val name=itemView.findViewById<TextView>(R.id.dishesName)
-    val image=itemView.findViewById<ImageView>(R.id.dishesImage)
+    val name: TextView =itemView.findViewById(R.id.dishesName)
+    val image: ImageView =itemView.findViewById(R.id.dishesImage)
 }

@@ -36,5 +36,5 @@ class TagsAdapter(val context: Context, val list: Array<String>): RecyclerView.A
     }
 }
 class TagsVH(itemView: View) : RecyclerView.ViewHolder(itemView){
-    val text=itemView.findViewById<TextView>(R.id.text)
+    val text: TextView =itemView.findViewById(R.id.text)
 }

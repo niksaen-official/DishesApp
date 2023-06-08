@@ -9,15 +9,21 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 val retrofitModule = module {
     single<Retrofit> {
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
-        val clientBuilder = OkHttpClient.Builder()
-        clientBuilder.interceptors().add(loggingInterceptor)
         Retrofit.Builder()
             .baseUrl("https://run.mocky.io/")
-            .client(clientBuilder.build())
+            .client(get(OkHttpClient::class))
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
+    }
+    single {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.NONE
+        loggingInterceptor
+    }
+    single {
+        val clientBuilder = OkHttpClient.Builder()
+        clientBuilder.interceptors().add(get(HttpLoggingInterceptor::class))
+        clientBuilder.build()
     }
 }
