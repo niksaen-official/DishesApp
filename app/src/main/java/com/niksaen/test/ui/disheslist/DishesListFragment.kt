@@ -14,16 +14,16 @@ import com.niksaen.test.adapters.TagsAdapter
 import com.niksaen.test.databinding.FragmentDisheslistBinding
 import com.niksaen.test.dialogs.DishesDialog
 import com.niksaen.test.remote.dishes.DishesItem
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DishesListFragment : Fragment() {
 
-    private lateinit var dishesListViewModel:DishesListViewModel
+    private val dishesListViewModel by viewModel<DishesListViewModel>()
     private var _binding: FragmentDisheslistBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentDisheslistBinding.inflate(inflater, container, false)
-        dishesListViewModel = ViewModelProvider(this)[DishesListViewModel::class.java]
         dishesListViewModel.activity = requireActivity() as MainActivity
         dishesListViewModel.getTags()
         dishesListViewModel.requestDishesResponse()

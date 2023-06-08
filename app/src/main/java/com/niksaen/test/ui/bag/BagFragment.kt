@@ -10,14 +10,15 @@ import androidx.lifecycle.ViewModelProvider
 import com.niksaen.test.MainActivity
 import com.niksaen.test.adapters.BagAdapter
 import com.niksaen.test.databinding.FragmentBagBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BagFragment : Fragment() {
 
     private var _binding: FragmentBagBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = checkNotNull(_binding)
+    private val bagViewModel by viewModel<BagViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val bagViewModel = ViewModelProvider(this)[BagViewModel::class.java]
         bagViewModel.activity = requireActivity() as MainActivity
         bagViewModel.requestCurrentDate()
         bagViewModel.requestUserCity()

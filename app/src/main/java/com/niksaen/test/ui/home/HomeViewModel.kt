@@ -20,21 +20,21 @@ class HomeViewModel : ViewModel() {
     val categoriesResponse:LiveData<CategoriesResponse> = _categoriesResponse
     val userCity:LiveData<String> = _userCity
     val currentDate:LiveData<String> = _currentDate
-    lateinit var activity:MainActivity
-
+    var activity: MainActivity?=null
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
+        activity = null
     }
     fun requestUserCity(){
-        _userCity.value = activity.getUserCity()
+        _userCity.value = activity?.getUserCity()
     }
     fun requestCurrentDate(){
-        _currentDate.value = activity.getCurrentDate()
+        _currentDate.value = activity?.getCurrentDate()
     }
     fun requestCategories(){
         compositeDisposable.add(
-            (activity.application as DishesApplication).
+            (activity?.application as DishesApplication).
             categoriesApi.getCategories()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

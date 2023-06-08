@@ -18,22 +18,26 @@ class BagViewModel : ViewModel() {
     val currentDate:LiveData<String> = _currentDate
     val fullPrice:LiveData<Int> = _price
     val bagList:LiveData<ArrayList<DishesItem>> = _bagList
-    lateinit var activity:MainActivity
+    var activity:MainActivity?=null
+    override fun onCleared() {
+        super.onCleared()
+        activity=null
+    }
 
     fun requestUserCity(){
-        _userCity.value = activity.getUserCity()
+        _userCity.value = activity?.getUserCity()
     }
     fun requestCurrentDate(){
-        _currentDate.value = activity.getCurrentDate()
+        _currentDate.value = activity?.getCurrentDate()
     }
     fun requestBagList(){
-        _bagList.value = (activity.application as DishesApplication).bagModule.getBagList()
+        _bagList.value = (activity?.application as DishesApplication).bagModule.getBagList()
     }
     fun requestFullPrice(){
-        _price.value = (activity.application as DishesApplication).bagModule.getPrice()
+        _price.value = (activity?.application as DishesApplication).bagModule.getPrice()
     }
     fun setDataChangedAction(){
-        (activity.application as DishesApplication).bagModule.dataChangedAction= Runnable{
+        (activity?.application as DishesApplication).bagModule.dataChangedAction= Runnable{
             requestBagList()
             requestFullPrice()
         }

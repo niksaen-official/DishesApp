@@ -21,21 +21,22 @@ class DishesListViewModel : ViewModel() {
 
     val tags: LiveData<Array<String>> = _tags
     val dishesResponse:LiveData<DishesResponse> = _dishesResponse
-    lateinit var activity: MainActivity
+    var activity: MainActivity? = null
 
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
+        activity = null
     }
     fun addToBag(dishesItem: DishesItem){
-        (activity.application as DishesApplication).bagModule?.add(dishesItem)
+        (activity?.application as DishesApplication).bagModule.add(dishesItem)
     }
     fun getTags(){
-        _tags.value = activity.resources.getStringArray(R.array.dishes_tags)
+        _tags.value = activity?.resources?.getStringArray(R.array.dishes_tags)
     }
     fun requestDishesResponse(){
         compositeDisposable.add(
-            (activity.application as DishesApplication)
+            (activity?.application as DishesApplication)
                 .dishesApi.getDishes()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

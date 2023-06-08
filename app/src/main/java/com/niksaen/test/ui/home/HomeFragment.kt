@@ -13,15 +13,16 @@ import com.niksaen.test.MainActivity
 import com.niksaen.test.R
 import com.niksaen.test.adapters.CategoriesAdapter
 import com.niksaen.test.databinding.FragmentHomeBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
     private var _ui: FragmentHomeBinding? = null
     lateinit var adapter:CategoriesAdapter
     private val ui get() = _ui!!
+    val homeViewModel by viewModel<HomeViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val homeViewModel = ViewModelProvider(this)[HomeViewModel::class.java]
         homeViewModel.activity = requireActivity() as MainActivity
         homeViewModel.requestCategories()
         homeViewModel.requestUserCity()
