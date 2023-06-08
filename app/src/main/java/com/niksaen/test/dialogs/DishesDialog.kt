@@ -17,10 +17,8 @@ class DishesDialog(context: Context, dishesItem: DishesItem) {
         val builder = AlertDialog.Builder(context)
         dialogUi.dishesNameView.text = dishesItem.name
         Picasso.get().load(dishesItem.image_url).into(dialogUi.dishesImageView)
-        dialogUi.priceView.text =
-            dialogUi.priceView.text.toString().replace("price", dishesItem.price.toString())
-        dialogUi.weightView.text =
-            dialogUi.weightView.text.toString().replace("weight", dishesItem.weight.toString())
+        dialogUi.priceView.text = "${dishesItem.price} ₽"
+        dialogUi.weightView.text = " · ${dishesItem.weight}г"
         dialogUi.descriptionView.text = dishesItem.description
         dialogUi.closeBtn.setOnClickListener {
             dialog!!.dismiss()
