@@ -35,7 +35,7 @@ class BagFragment : Fragment() {
             }
         }
         bagViewModel.bagList.observe(viewLifecycleOwner){
-            ui.list.adapter = BagAdapter(requireContext(), it, bagViewModel.bagModule)
+            ui.list.adapter = BagAdapter(requireContext(), it)
         }
         ui.userCityView.text = (requireActivity() as MainActivity).getUserCity()
         return ui.root
