@@ -18,7 +18,8 @@ import com.niksaen.test.remote.dishes.DishesItem
 import com.squareup.picasso.Picasso
 import org.koin.java.KoinJavaComponent.inject
 
-class BagAdapter(val context: Context, private val list: ArrayList<DishesItem>,private val bagModule: BagModule): RecyclerView.Adapter<BagVH>() {
+class BagAdapter(val context: Context, private val list: ArrayList<DishesItem>): RecyclerView.Adapter<BagVH>() {
+    private val bagModule:BagModule by inject(BagModule::class.java)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BagVH =
         BagVH(LayoutInflater.from(context).inflate(R.layout.item_bag,null))
 
