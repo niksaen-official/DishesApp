@@ -16,7 +16,7 @@ import com.niksaen.test.remote.categories.CategoriesItem
 import com.niksaen.test.remote.dishes.DishesItem
 import com.squareup.picasso.Picasso
 
-class BagAdapter(val context: Context, val list: ArrayList<DishesItem>): RecyclerView.Adapter<BagVH>() {
+class BagAdapter(val context: Context, private val list: ArrayList<DishesItem>): RecyclerView.Adapter<BagVH>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BagVH =
         BagVH(LayoutInflater.from(context).inflate(R.layout.item_bag,null))
 
@@ -25,20 +25,24 @@ class BagAdapter(val context: Context, val list: ArrayList<DishesItem>): Recycle
     override fun onBindViewHolder(holder: BagVH, position: Int) {
         Picasso.get().load(list[position].image_url).into(holder.image)
         holder.text.text = list[position].name
-        holder.countView.text = (context.applicationContext as DishesApplication).bagModule?.getDishesCount(list[position]).toString()
+        holder.price.text = "${list[position].price} ₽"
+        holder.weight.text = " · ${list[position].weight}г"
+        holder.countView.text = (context.applicationContext as DishesApplication).bagModule.getDishesCount(list[position])
+            .toString()
         holder.minusBtn.setOnClickListener{
-            (context.applicationContext as DishesApplication).bagModule?.remove(list[position])
-            holder.countView.text = (context.applicationContext as DishesApplication).bagModule?.getDishesCount(list[position]).toString()
+            (context.applicationContext as DishesApplication).bagModule.remove(list[position])
+            holder.countView.text = (context.applicationContext as DishesApplication).bagModule.getDishesCount(list[position]).toString()
         }
         holder.plusBtn.setOnClickListener {
-            (context.applicationContext as DishesApplication).bagModule?.add(list[position])
-            holder.countView.text = (context.applicationContext as DishesApplication).bagModule?.getDishesCount(list[position]).toString()
+            (context.applicationContext as DishesApplication).bagModule.add(list[position])
+            holder.countView.text = (context.applicationContext as DishesApplication).bagModule.getDishesCount(list[position]).toString()
         }
+        Log.w("BagAdapter", "data set position:$position")
     }
 }
 class BagVH(itemView: View) : RecyclerView.ViewHolder(itemView){
-    val image=itemView.findViewById<ImageView>(R.id.dishesImage)
-    val text=itemView.findViewById<TextView>(R.id.dishesNameView)
+    val image=itemView.findViewById<ImageView>(R.id.imageDishes)
+    val text=itemView.findViewById<TextView>(R.id.nameDishesView)
     val price=itemView.findViewById<TextView>(R.id.priceView)
     val weight = itemView.findViewById<TextView>(R.id.weightView)
     val plusBtn = itemView.findViewById<ImageView>(R.id.plusBtn)

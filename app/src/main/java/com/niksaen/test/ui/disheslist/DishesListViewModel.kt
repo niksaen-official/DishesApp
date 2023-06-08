@@ -1,5 +1,6 @@
 package com.niksaen.test.ui.disheslist
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -38,11 +39,7 @@ class DishesListViewModel : ViewModel() {
                 .dishesApi.getDishes()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-                        _dishesResponse.value=it
-                        (activity.application as DishesApplication).bagModule = BagModule(it.dishes)
-                    },{}))
+                .subscribe({ _dishesResponse.value=it },{}))
     }
     fun filterDishesByTag(tag:String = "Все меню"):ArrayList<DishesItem>{
         val dishesItemList = ArrayList<DishesItem>()

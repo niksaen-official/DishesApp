@@ -3,44 +3,44 @@ package com.niksaen.test.bag
 import android.util.Log
 import com.niksaen.test.remote.dishes.DishesItem
 
-class BagModule(private var list: ArrayList<DishesItem>) {
-    private val bag = HashMap<Int,Int>()
+class BagModule {
+    private val bag = ArrayList<DishesItem>()
+    var dataChangedAction:Runnable = Runnable {  }
     fun add(dishesItem: DishesItem){
-        if(bag.containsKey(dishesItem.id)){
-            bag[dishesItem.id]=bag[dishesItem.id]!!+1
-        }else{
-            bag[dishesItem.id] = 1
-        }
+        bag.add(dishesItem)
+        dataChangedAction.run()
     }
     fun remove(dishesItem: DishesItem){
-        if(bag.containsKey(dishesItem.id)){
-            bag[dishesItem.id] = bag[dishesItem.id]!!-1
-            if(bag[dishesItem.id] == 0){
-                bag.remove(dishesItem.id)
+        bag.remove(dishesItem)
+        dataChangedAction.run()
+    }
+    fun getDishesCount(dishesItem: DishesItem):Int {
+        var count = 0
+        if(bag.size > 0) {
+            for (dishes in bag) {
+                if (dishesItem.id == dishes.id) {
+                    count++
+                }
             }
         }
+        return count
     }
-    fun getDishesCount(dishesItem: DishesItem):Int =
-        if(bag.containsKey(dishesItem.id)) bag[dishesItem.id]!!
-        else 0
+
 
     fun getBagList():ArrayList<DishesItem>{
-        val bagList=ArrayList<DishesItem>()
-        for(dishesId in bag.keys){
-            for(dishes in list){
-                if(dishes.id == dishesId) bagList.add(dishes)
+        val arrayList = ArrayList<DishesItem>()
+        for(item in bag){
+            if(!arrayList.contains(item)){
+                arrayList.add(item)
             }
         }
-        Log.w("BagModule",bagList.joinToString())
-        return bagList
+        return arrayList
     }
     fun getPrice():Int{
-        var price=0
-        for (productId in bag.keys){
-            for(product in list){
-                if(product.id == productId){
-                    price+=product.price*bag[productId]!!
-                }
+        var price = 0
+        if(bag.size > 0) {
+            for (dishes in bag) {
+                price += dishes.price
             }
         }
         return price

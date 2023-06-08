@@ -23,6 +23,7 @@ class BagFragment : Fragment() {
         bagViewModel.requestUserCity()
         bagViewModel.requestFullPrice()
         bagViewModel.requestBagList()
+        bagViewModel.setDataChangedAction()
 
         _binding = FragmentBagBinding.inflate(inflater, container, false)
 
@@ -31,12 +32,12 @@ class BagFragment : Fragment() {
         bagViewModel.fullPrice.observe(viewLifecycleOwner){
             if(it != 0) {
                 binding.pay.text = "Оплатить " + it
+            }else{
+                binding.pay.text = "Оплатить"
             }
         }
         bagViewModel.bagList.observe(viewLifecycleOwner){
-            if(it != null) {
-                binding.list.adapter = BagAdapter(requireContext(), it)
-            }
+            binding.list.adapter = BagAdapter(requireContext(), it)
         }
         return binding.root
     }

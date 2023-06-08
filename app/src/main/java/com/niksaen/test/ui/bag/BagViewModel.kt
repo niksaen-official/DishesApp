@@ -27,13 +27,15 @@ class BagViewModel : ViewModel() {
         _currentDate.value = activity.getCurrentDate()
     }
     fun requestBagList(){
-        if((activity.application as DishesApplication).bagModule!=null) {
-            _bagList.value = (activity.application as DishesApplication).bagModule?.getBagList()
-        }
+        _bagList.value = (activity.application as DishesApplication).bagModule.getBagList()
     }
     fun requestFullPrice(){
-        if((activity.application as DishesApplication).bagModule!=null) {
-            _price.value = (activity.application as DishesApplication).bagModule?.getPrice()
+        _price.value = (activity.application as DishesApplication).bagModule.getPrice()
+    }
+    fun setDataChangedAction(){
+        (activity.application as DishesApplication).bagModule.dataChangedAction= Runnable{
+            requestBagList()
+            requestFullPrice()
         }
     }
 }

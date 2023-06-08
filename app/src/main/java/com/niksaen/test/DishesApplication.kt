@@ -13,15 +13,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 class DishesApplication: Application() {
     lateinit var categoriesApi:CategoriesApi
     lateinit var dishesApi: DishesApi
-    var bagModule: BagModule?=null
-
+    var bagModule: BagModule = BagModule()
     override fun onCreate() {
         super.onCreate()
         init()
     }
     private fun init(){
         val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
         val clientBuilder = OkHttpClient.Builder()
         clientBuilder.addInterceptor(loggingInterceptor)
         val retrofit = Retrofit.Builder()
