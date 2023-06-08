@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Test</string>
+    <string name="title_home">Главная</string>
+    <string name="title_profile">Аккаунт</string>
+    <string name="title_search">Поиск</string>
+    <string name="title_bag">Корзина</string>
+    <string name="add_to_cart">Добавить в корзину</string>
+    <string name="pay">Оплатить</string>
+    <string-array name="dishes_tags">
+        <item>Все меню</item>
+        <item>Салаты</item>
+        <item>С рисом</item>
+        <item>С рыбой</item>
+    </string-array>
+</resources>

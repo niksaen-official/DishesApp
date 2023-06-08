@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/home">
+
+    <fragment
+        android:id="@+id/home"
+        android:name="com.niksaen.test.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_dishes"
+            app:destination="@id/dishes" />
+        <action
+            android:id="@+id/action_home_to_bag2"
+            app:destination="@id/bag" />
+    </fragment>
+    <fragment
+        android:id="@+id/dishes"
+        android:name="com.niksaen.test.ui.disheslist.DishesListFragment"
+        android:label="Dishes list"
+        tools:layout="@layout/fragment_disheslist">
+        <action
+            android:id="@+id/action_dishes_to_home"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/bag"
+        android:name="com.niksaen.test.ui.bag.BagFragment"
+        android:label="@string/title_bag"
+        tools:layout="@layout/fragment_bag" >
+        <action
+            android:id="@+id/action_bag_to_home"
+            app:destination="@id/home" />
+    </fragment>
+</navigation>
