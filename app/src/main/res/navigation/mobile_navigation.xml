@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/home">
+    app:startDestination="@+id/navigation_home">
 
     <fragment
-        android:id="@+id/home"
+        android:id="@+id/navigation_home"
         android:name="com.niksaen.test.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
@@ -15,7 +15,7 @@
             app:destination="@id/dishes" />
         <action
             android:id="@+id/action_home_to_bag2"
-            app:destination="@id/bag" />
+            app:destination="@id/navigation_bag" />
     </fragment>
     <fragment
         android:id="@+id/dishes"
@@ -24,15 +24,15 @@
         tools:layout="@layout/fragment_disheslist">
         <action
             android:id="@+id/action_dishes_to_home"
-            app:destination="@id/home" />
+            app:destination="@id/navigation_home" />
     </fragment>
     <fragment
-        android:id="@+id/bag"
+        android:id="@+id/navigation_bag"
         android:name="com.niksaen.test.ui.bag.BagFragment"
         android:label="@string/title_bag"
         tools:layout="@layout/fragment_bag" >
         <action
             android:id="@+id/action_bag_to_home"
-            app:destination="@id/home" />
+            app:destination="@id/navigation_home" />
     </fragment>
 </navigation>

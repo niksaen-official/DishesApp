@@ -6,40 +6,39 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.niksaen.test.DishesApplication
 import com.niksaen.test.MainActivity
+import com.niksaen.test.bag.BagModule
 import com.niksaen.test.remote.dishes.DishesItem
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-class BagViewModel : ViewModel() {
-    private var _userCity=MutableLiveData<String>()
+class BagViewModel(val bagModule: BagModule) : ViewModel() {
     private var _currentDate=MutableLiveData<String>()
     private var _price = MutableLiveData<Int>()
     private var _bagList = MutableLiveData<ArrayList<DishesItem>>()
 
-    val userCity:LiveData<String> = _userCity
     val currentDate:LiveData<String> = _currentDate
     val fullPrice:LiveData<Int> = _price
     val bagList:LiveData<ArrayList<DishesItem>> = _bagList
-    var activity:MainActivity?=null
-    override fun onCleared() {
-        super.onCleared()
-        activity=null
-    }
 
-    fun requestUserCity(){
-        _userCity.value = activity?.getUserCity()
-    }
     fun requestCurrentDate(){
-        _currentDate.value = activity?.getCurrentDate()
+        _currentDate.value = getCurrentDate()
     }
     fun requestBagList(){
-        _bagList.value = (activity?.application as DishesApplication).bagModule.getBagList()
+        _bagList.value = bagModule.getBagList()
     }
     fun requestFullPrice(){
-        _price.value = (activity?.application as DishesApplication).bagModule.getPrice()
+        _price.value = bagModule.getPrice()
     }
     fun setDataChangedAction(){
-        (activity?.application as DishesApplication).bagModule.dataChangedAction= Runnable{
+        bagModule.dataChangedAction= Runnable{
             requestBagList()
             requestFullPrice()
         }
+    }
+    private fun getCurrentDate():String{
+        val currentDate = Date()
+        val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+        return dateFormat.format(currentDate).replaceFirst("0","")
     }
 }

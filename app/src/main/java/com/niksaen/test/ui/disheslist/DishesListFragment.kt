@@ -19,20 +19,19 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class DishesListFragment : Fragment() {
 
     private val dishesListViewModel by viewModel<DishesListViewModel>()
-    private var _binding: FragmentDisheslistBinding? = null
-    private val binding get() = _binding!!
+    private var _ui: FragmentDisheslistBinding? = null
+    private val ui get() = _ui!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentDisheslistBinding.inflate(inflater, container, false)
-        dishesListViewModel.activity = requireActivity() as MainActivity
-        dishesListViewModel.getTags()
+        _ui = FragmentDisheslistBinding.inflate(inflater, container, false)
+        dishesListViewModel.getTags(requireContext())
         dishesListViewModel.requestDishesResponse()
 
-        val root: View = binding.root
-        binding.titleView.text = (requireActivity() as MainActivity).categoryName
+        val root: View = ui.root
+        ui.titleView.text = (requireActivity() as MainActivity).categoryName
         dishesListViewModel.tags.observe(viewLifecycleOwner){
             val adapterTag=TagsAdapter(requireContext(),it)
-            binding.tags.adapter=adapterTag
+            ui.tags.adapter=adapterTag
             adapterTag.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
                 run{
                     setDishesAdapter(dishesListViewModel.filterDishesByTag(it[position]))
@@ -42,7 +41,7 @@ class DishesListFragment : Fragment() {
         dishesListViewModel.dishesResponse.observe(viewLifecycleOwner){
             setDishesAdapter(it.dishes)
         }
-        binding.backButn.setOnClickListener {
+        ui.backButn.setOnClickListener {
             (requireActivity() as MainActivity).navController.navigate(R.id.action_dishes_to_home)
         }
         return root
@@ -50,12 +49,13 @@ class DishesListFragment : Fragment() {
 
     private fun setDishesAdapter(dishesList:ArrayList<DishesItem>){
         val adapter = DishesAdapter(requireContext(),dishesList)
-        binding.dishesList.adapter = adapter
+        ui.dishesList.adapter = adapter
         adapter.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             run {
                 val dialog = DishesDialog(requireContext(),dishesList[position])
                 dialog.setAddToCartButtonListener{
                     dishesListViewModel.addToBag(dishesList[position])
+                    dialog.close()
                 }
                 dialog.show()
             }
@@ -64,6 +64,6 @@ class DishesListFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _ui = null
     }
 }

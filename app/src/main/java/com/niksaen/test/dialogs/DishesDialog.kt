@@ -35,7 +35,10 @@ class DishesDialog(context: Context, dishesItem: DishesItem) {
         dialogUi.addToCartBtn.setOnClickListener(onClickListener)
     }
 
+    fun close(){
+        dialog?.dismiss()
+    }
     fun show() {
-        dialog!!.show()
+        dialog?.show()
     }
 }

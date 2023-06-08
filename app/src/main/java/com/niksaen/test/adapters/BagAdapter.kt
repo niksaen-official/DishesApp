@@ -12,11 +12,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.niksaen.test.DishesApplication
 import com.niksaen.test.R
+import com.niksaen.test.bag.BagModule
 import com.niksaen.test.remote.categories.CategoriesItem
 import com.niksaen.test.remote.dishes.DishesItem
 import com.squareup.picasso.Picasso
+import org.koin.java.KoinJavaComponent.inject
 
-class BagAdapter(val context: Context, private val list: ArrayList<DishesItem>): RecyclerView.Adapter<BagVH>() {
+class BagAdapter(val context: Context, private val list: ArrayList<DishesItem>,private val bagModule: BagModule): RecyclerView.Adapter<BagVH>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BagVH =
         BagVH(LayoutInflater.from(context).inflate(R.layout.item_bag,null))
 
@@ -27,15 +29,15 @@ class BagAdapter(val context: Context, private val list: ArrayList<DishesItem>):
         holder.text.text = list[position].name
         holder.price.text = "${list[position].price} ₽"
         holder.weight.text = " · ${list[position].weight}г"
-        holder.countView.text = (context.applicationContext as DishesApplication).bagModule.getDishesCount(list[position])
+        holder.countView.text = bagModule.getDishesCount(list[position])
             .toString()
         holder.minusBtn.setOnClickListener{
-            (context.applicationContext as DishesApplication).bagModule.remove(list[position])
-            holder.countView.text = (context.applicationContext as DishesApplication).bagModule.getDishesCount(list[position]).toString()
+            bagModule.remove(list[position])
+            holder.countView.text = bagModule.getDishesCount(list[position]).toString()
         }
         holder.plusBtn.setOnClickListener {
-            (context.applicationContext as DishesApplication).bagModule.add(list[position])
-            holder.countView.text = (context.applicationContext as DishesApplication).bagModule.getDishesCount(list[position]).toString()
+            bagModule.add(list[position])
+            holder.countView.text = bagModule.getDishesCount(list[position]).toString()
         }
         Log.w("BagAdapter", "data set position:$position")
     }

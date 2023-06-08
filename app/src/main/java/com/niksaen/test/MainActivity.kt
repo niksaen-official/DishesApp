@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.niksaen.test.bag.BagModule
 import com.niksaen.test.databinding.ActivityMainBinding
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -24,7 +25,7 @@ import java.util.Locale
 class MainActivity : AppCompatActivity() {
     var categoryName=""
     lateinit var navController:NavController
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var ui: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,32 +33,10 @@ class MainActivity : AppCompatActivity() {
             window.decorView.windowInsetsController
                 ?.setSystemBarsAppearance(APPEARANCE_LIGHT_STATUS_BARS, APPEARANCE_LIGHT_STATUS_BARS)
         }
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        val navView: BottomNavigationView = binding.navView
-
+        ui = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(ui.root)
         navController = findNavController(R.id.nav_host_fragment_activity_main)
-        navView.setupWithNavController(navController)
-        navView.setOnItemSelectedListener {
-            when(it.itemId) {
-                R.id.navigation_home -> {
-                    navController.navigate(R.id.home)
-                    true
-                }
-                R.id.navigation_bag -> {
-                    navController.navigate(R.id.bag)
-                    true
-                }
-                else -> false
-            }
-        }
-    }
-
-    fun getCurrentDate():String{
-        val currentDate = Date()
-        val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
-
-        return dateFormat.format(currentDate).replaceFirst("0","")
+        ui.navView.setupWithNavController(navController)
     }
     fun getUserCity():String{
         val permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)

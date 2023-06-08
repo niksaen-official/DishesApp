@@ -14,37 +14,35 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BagFragment : Fragment() {
 
-    private var _binding: FragmentBagBinding? = null
-    private val binding get() = checkNotNull(_binding)
+    private var _ui: FragmentBagBinding? = null
+    private val ui get() = checkNotNull(_ui)
     private val bagViewModel by viewModel<BagViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        bagViewModel.activity = requireActivity() as MainActivity
         bagViewModel.requestCurrentDate()
-        bagViewModel.requestUserCity()
         bagViewModel.requestFullPrice()
         bagViewModel.requestBagList()
         bagViewModel.setDataChangedAction()
 
-        _binding = FragmentBagBinding.inflate(inflater, container, false)
+        _ui = FragmentBagBinding.inflate(inflater, container, false)
 
-        bagViewModel.userCity.observe(viewLifecycleOwner){binding.userCityView.text = it}
-        bagViewModel.currentDate.observe(viewLifecycleOwner){binding.dateView.text = it}
+        bagViewModel.currentDate.observe(viewLifecycleOwner){ui.dateView.text = it}
         bagViewModel.fullPrice.observe(viewLifecycleOwner){
             if(it != 0) {
-                binding.pay.text = "Оплатить " + it
+                ui.pay.text = "Оплатить " + it
             }else{
-                binding.pay.text = "Оплатить"
+                ui.pay.text = "Оплатить"
             }
         }
         bagViewModel.bagList.observe(viewLifecycleOwner){
-            binding.list.adapter = BagAdapter(requireContext(), it)
+            ui.list.adapter = BagAdapter(requireContext(), it, bagViewModel.bagModule)
         }
-        return binding.root
+        ui.userCityView.text = (requireActivity() as MainActivity).getUserCity()
+        return ui.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        _ui = null
     }
 }
