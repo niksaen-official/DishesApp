@@ -42,7 +42,7 @@ class DishesListFragment : Fragment() {
             setDishesAdapter(it.dishes)
         }
         ui.backButn.setOnClickListener {
-            (requireActivity() as MainActivity).navController.navigate(R.id.action_dishes_to_home)
+            (requireActivity() as MainActivity).navController.navigate(R.id.navigation_home)
         }
         return root
     }
