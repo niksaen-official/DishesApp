@@ -15,7 +15,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class BagFragment : Fragment() {
 
     private var _ui: FragmentBagBinding? = null
-    private val ui get() = checkNotNull(_ui)
+    private val ui get() = _ui!!
     private val bagViewModel by viewModel<BagViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -28,7 +28,7 @@ class BagFragment : Fragment() {
             ui.pay.text = it
         }
         bagViewModel.bagList.observe(viewLifecycleOwner){
-            ui.list.adapter = BagAdapter(requireContext(), it,bagViewModel.bagModule)
+            ui.list.adapter = BagAdapter(requireContext(),it)
         }
 
         ui.userCityView.text = bagViewModel.getCity()
