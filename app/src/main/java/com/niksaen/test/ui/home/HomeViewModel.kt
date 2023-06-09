@@ -16,8 +16,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class HomeViewModel(val context:Context) : ViewModel() {
-
+class HomeViewModel : ViewModel() {
+    val context:Context by inject(Context::class.java)
     private val categoriesApi:CategoriesApi by inject(CategoriesApi::class.java)
     private val compositeDisposable=CompositeDisposable()
     private var _categoriesResponse=MutableLiveData<CategoriesResponse>()

@@ -14,7 +14,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class BagViewModel(val context: Context) : ViewModel() {
+class BagViewModel : ViewModel() {
+    val context:Context by inject(Context::class.java)
     val bagModule:BagModule by inject(BagModule::class.java)
     private var _priceText = MutableLiveData<String>()
     private var _bagList = MutableLiveData<ArrayList<DishesItem>>()

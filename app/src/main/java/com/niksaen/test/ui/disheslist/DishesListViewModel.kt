@@ -15,7 +15,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.koin.java.KoinJavaComponent.inject
 
-class DishesListViewModel() : ViewModel() {
+class DishesListViewModel : ViewModel() {
     private val bagModule:BagModule by inject(BagModule::class.java)
     private val dishesApi: DishesApi by inject(DishesApi::class.java)
     private val compositeDisposable = CompositeDisposable()
