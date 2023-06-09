@@ -11,15 +11,13 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
     <fragment
-        android:id="@+id/dishes"
+        android:id="@+id/navigation_dishes"
         android:name="com.niksaen.test.ui.disheslist.DishesListFragment"
-        android:label="Dishes list"
-        tools:layout="@layout/fragment_disheslist">
-    </fragment>
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/navigation_bag"
         android:name="com.niksaen.test.ui.bag.BagFragment"
         android:label="@string/title_bag"
-        tools:layout="@layout/fragment_bag" >
-    </fragment>
+        tools:layout="@layout/fragment_bag" />
 </navigation>

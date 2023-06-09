@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
             adapter.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
                 run {
                     (requireActivity() as MainActivity).categoryName=it.list[position].name
-                    findNavController().navigate(R.id.dishes)
+                    findNavController().navigate(R.id.navigation_dishes)
                 }
             }
         }
