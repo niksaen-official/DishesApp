@@ -16,21 +16,23 @@ import com.squareup.picasso.Picasso
 
 class DishesAdapter(val context: Context, val list: ArrayList<DishesItem>): RecyclerView.Adapter<DishesVH>() {
     var onItemClickListener: AdapterView.OnItemClickListener? = null
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishesVH =
-        DishesVH(ItemDishesBinding.inflate(LayoutInflater.from(context)))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishesVH {
+        val vh = DishesVH(ItemDishesBinding.inflate(LayoutInflater.from(context)))
+        vh.onItemClickListener = onItemClickListener
+        return vh
+    }
 
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: DishesVH, position: Int) {
         holder.bind(list[position])
-        holder.itemView.setOnClickListener { onItemClickListener?.onItemClick(null,holder.itemView,position,1) }
     }
 }
-class DishesVH(idb: ItemDishesBinding) : RecyclerView.ViewHolder(idb.root){
-    val name = idb.dishesName
-    val image = idb.dishesImage
+class DishesVH(private val idb: ItemDishesBinding) : RecyclerView.ViewHolder(idb.root){
+    var onItemClickListener: AdapterView.OnItemClickListener? = null
     fun bind(dishesItem: DishesItem){
-        name.text=dishesItem.name
-        Picasso.get().load(dishesItem.image_url).into(image)
+        idb.dishesName.text=dishesItem.name
+        Picasso.get().load(dishesItem.image_url).into(idb.dishesImage)
+        idb.root.setOnClickListener { onItemClickListener?.onItemClick(null,idb.root,adapterPosition,1) }
     }
 }

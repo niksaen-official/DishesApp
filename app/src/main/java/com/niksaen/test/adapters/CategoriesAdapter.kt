@@ -15,23 +15,25 @@ import com.squareup.picasso.Picasso
 
 class CategoriesAdapter(val context: Context,val list: ArrayList<CategoriesItem>): RecyclerView.Adapter<CategoriesVH>() {
     var onItemClickListener: AdapterView.OnItemClickListener? = null
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesVH =
-        CategoriesVH(ItemCategoriesBinding.inflate(LayoutInflater.from(context)))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesVH {
+        val vh = CategoriesVH(ItemCategoriesBinding.inflate(LayoutInflater.from(context)))
+        vh.onItemClickListener = onItemClickListener
+        return vh
+    }
 
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: CategoriesVH, position: Int) {
         holder.bind(list[position])
-        holder.itemView.setOnClickListener {
-            onItemClickListener?.onItemClick(null,holder.itemView,position,1)
-        }
     }
 }
-class CategoriesVH(icb: ItemCategoriesBinding) : RecyclerView.ViewHolder(icb.root){
-    val image = icb.imageBg
-    val text = icb.text
+class CategoriesVH(private val icb: ItemCategoriesBinding) : RecyclerView.ViewHolder(icb.root){
+    var onItemClickListener: AdapterView.OnItemClickListener? = null
     fun bind(categoriesItem: CategoriesItem){
-        Picasso.get().load(categoriesItem.image_url).into(image)
-        text.text = categoriesItem.name
+        Picasso.get().load(categoriesItem.image_url).into(icb.imageBg)
+        icb.text.text = categoriesItem.name
+        icb.root.setOnClickListener {
+            onItemClickListener?.onItemClick(null,icb.root,adapterPosition,1)
+        }
     }
 }
