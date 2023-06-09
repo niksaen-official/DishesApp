@@ -8,11 +8,14 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.niksaen.test.R
+import com.niksaen.test.databinding.ItemBagBinding
+import com.niksaen.test.databinding.ItemTagBinding
 
 class TagsAdapter(val context: Context, val list: Array<String>): RecyclerView.Adapter<TagsVH>() {
     var onItemClickListener: OnItemClickListener? = null
     var buffView:TextView? = null
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagsVH = TagsVH(LayoutInflater.from(context).inflate(R.layout.item_tag,null))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagsVH =
+        TagsVH(ItemTagBinding.inflate(LayoutInflater.from(context)))
 
     override fun getItemCount(): Int = list.size
 
@@ -35,6 +38,6 @@ class TagsAdapter(val context: Context, val list: Array<String>): RecyclerView.A
         }
     }
 }
-class TagsVH(itemView: View) : RecyclerView.ViewHolder(itemView){
-    val text: TextView =itemView.findViewById(R.id.text)
+class TagsVH(itb: ItemTagBinding) : RecyclerView.ViewHolder(itb.root){
+    val text = itb.text
 }

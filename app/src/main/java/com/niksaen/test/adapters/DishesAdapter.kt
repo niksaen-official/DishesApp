@@ -10,25 +10,27 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.niksaen.test.R
+import com.niksaen.test.databinding.ItemDishesBinding
 import com.niksaen.test.remote.dishes.DishesItem
 import com.squareup.picasso.Picasso
 
 class DishesAdapter(val context: Context, val list: ArrayList<DishesItem>): RecyclerView.Adapter<DishesVH>() {
     var onItemClickListener: AdapterView.OnItemClickListener? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DishesVH =
-        DishesVH(LayoutInflater.from(context).inflate(R.layout.item_dishes,null))
+        DishesVH(ItemDishesBinding.inflate(LayoutInflater.from(context)))
 
     override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: DishesVH, position: Int) {
-        holder.name.text=list[position].name
-        Picasso.get().load(list[position].image_url).into(holder.image)
-        holder.itemView.setOnClickListener {
-            onItemClickListener?.onItemClick(null,holder.itemView,position,1)
-        }
+        holder.bind(list[position])
+        holder.itemView.setOnClickListener { onItemClickListener?.onItemClick(null,holder.itemView,position,1) }
     }
 }
-class DishesVH(itemView: View) : RecyclerView.ViewHolder(itemView){
-    val name: TextView =itemView.findViewById(R.id.dishesName)
-    val image: ImageView =itemView.findViewById(R.id.dishesImage)
+class DishesVH(idb: ItemDishesBinding) : RecyclerView.ViewHolder(idb.root){
+    val name = idb.dishesName
+    val image = idb.dishesImage
+    fun bind(dishesItem: DishesItem){
+        name.text=dishesItem.name
+        Picasso.get().load(dishesItem.image_url).into(image)
+    }
 }
