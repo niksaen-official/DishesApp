@@ -19,25 +19,20 @@ class BagFragment : Fragment() {
     private val bagViewModel by viewModel<BagViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        bagViewModel.requestCurrentDate()
         bagViewModel.requestFullPrice()
         bagViewModel.requestBagList()
         bagViewModel.setDataChangedAction()
 
         _ui = FragmentBagBinding.inflate(inflater, container, false)
-
-        bagViewModel.currentDate.observe(viewLifecycleOwner){ui.dateView.text = it}
-        bagViewModel.fullPrice.observe(viewLifecycleOwner){
-            if(it != 0) {
-                ui.pay.text = "Оплатить " + it
-            }else{
-                ui.pay.text = "Оплатить"
-            }
+        bagViewModel.fullPriceText.observe(viewLifecycleOwner){
+            ui.pay.text = it
         }
         bagViewModel.bagList.observe(viewLifecycleOwner){
-            ui.list.adapter = BagAdapter(requireContext(), it)
+            ui.list.adapter = BagAdapter(requireContext(), it,bagViewModel.bagModule)
         }
-        ui.userCityView.text = (requireActivity() as MainActivity).getUserCity()
+
+        ui.userCityView.text = bagViewModel.getCity()
+        ui.dateView.text = bagViewModel.getDate()
         return ui.root
     }
 

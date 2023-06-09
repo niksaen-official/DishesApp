@@ -14,11 +14,8 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.niksaen.test.bag.BagModule
 import com.niksaen.test.databinding.ActivityMainBinding
-import java.text.SimpleDateFormat
-import java.util.Date
+import com.niksaen.test.modules.UserCity
 import java.util.Locale
 
 
@@ -37,27 +34,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(ui.root)
         navController = findNavController(R.id.nav_host_fragment_activity_main)
         ui.navView.setupWithNavController(navController)
-    }
-    fun getUserCity():String{
-        val permissionStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-
-        if(permissionStatus == PackageManager.PERMISSION_GRANTED) {
-            val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                val location =
-                    locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                val geocoder = Geocoder(this, Locale.getDefault())
-                val addresses = geocoder.getFromLocation(location!!.latitude, location.longitude, 1)
-                return addresses!![0].locality
-            }
-        }else {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),1)
-            getUserCity()
-        }
-        return "Error"
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),1)
     }
 }

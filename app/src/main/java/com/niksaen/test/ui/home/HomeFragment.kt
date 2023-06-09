@@ -25,7 +25,6 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         homeViewModel.requestCategories()
-        homeViewModel.requestCurrentDate()
         _ui = FragmentHomeBinding.inflate(inflater, container, false)
         homeViewModel.categoriesResponse.observe(viewLifecycleOwner){
             adapter = CategoriesAdapter(requireContext(),it.list)
@@ -37,8 +36,8 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-        homeViewModel.currentDate.observe(viewLifecycleOwner){ui.dateView.text = it}
-        ui.userCityView.text = (requireActivity() as MainActivity).getUserCity()
+        ui.dateView.text = homeViewModel.getCurrentDate()
+        ui.userCityView.text = homeViewModel.getCity()
         return ui.root
     }
 

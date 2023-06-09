@@ -1,6 +1,5 @@
-package com.niksaen.test.bag
+package com.niksaen.test.modules
 
-import android.util.Log
 import com.niksaen.test.remote.dishes.DishesItem
 
 class BagModule {

@@ -1,8 +1,11 @@
 package com.niksaen.test.ui.home
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.niksaen.test.modules.UserCity
+import com.niksaen.test.modules.getUserCity
 import com.niksaen.test.remote.categories.CategoriesApi
 import com.niksaen.test.remote.categories.CategoriesResponse
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,20 +16,16 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(val context:Context) : ViewModel() {
+
     private val categoriesApi:CategoriesApi by inject(CategoriesApi::class.java)
     private val compositeDisposable=CompositeDisposable()
     private var _categoriesResponse=MutableLiveData<CategoriesResponse>()
-    private var _currentDate=MutableLiveData<String>()
 
     val categoriesResponse:LiveData<CategoriesResponse> = _categoriesResponse
-    val currentDate:LiveData<String> = _currentDate
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
-    }
-    fun requestCurrentDate(){
-        _currentDate.value = getCurrentDate()
     }
     fun requestCategories(){
         compositeDisposable.add(
@@ -35,7 +34,13 @@ class HomeViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ _categoriesResponse.value=it },{}))
     }
-    private fun getCurrentDate():String{
+    fun getCity():String{
+        return when(val handle = getUserCity(context)){
+            is UserCity.Error->"Error"
+            is UserCity.Success->handle.location
+        }
+    }
+    fun getCurrentDate():String{
         val currentDate = Date()
         val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
         return dateFormat.format(currentDate).replaceFirst("0","")
